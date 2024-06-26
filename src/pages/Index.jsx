@@ -1,17 +1,22 @@
 import { Container, Text, VStack, Box, Heading, SimpleGrid, Card, CardHeader, CardBody, CardFooter, Button } from "@chakra-ui/react";
 import { FaBriefcase, FaMapMarkerAlt, FaDollarSign } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
 
 const Index = () => {
   const [jobListings, setJobListings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedJobListings = JSON.parse(localStorage.getItem("jobListings")) || [];
     setJobListings(storedJobListings);
   }, []);
+
+  const handleApply = (jobId) => {
+    navigate("/apply-job", { state: { jobId } });
+  };
 
   return (
     <Container maxW="container.xl" py={10}>
@@ -37,7 +42,7 @@ const Index = () => {
                 <Text>{job.description}</Text>
               </CardBody>
               <CardFooter>
-                <Button colorScheme="teal">Apply Now</Button>
+                <Button colorScheme="teal" onClick={() => handleApply(index)}>Apply Now</Button>
               </CardFooter>
             </Card>
           ))}
